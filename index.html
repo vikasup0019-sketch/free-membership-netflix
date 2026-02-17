@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dekho Kya Mila 😂</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Fredoka+One&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #1a0a00;
+    }
+
+    /* Animated jungle background */
+    body {
+      background:
+        radial-gradient(ellipse at 20% 50%, #2d5a1b44 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, #1b3a0a44 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 80%, #3a1a0044 0%, transparent 60%),
+        linear-gradient(135deg, #1a0a00 0%, #0d1f00 40%, #1a0800 100%);
+      animation: bgPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.15); }
+    }
+
+    /* Jungle vines decorative elements */
+    .vine {
+      position: fixed;
+      top: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #2d6e1a, #1a4a0d, #0d2a06);
+      border-radius: 0 0 50% 50%;
+      animation: sway 2s ease-in-out infinite;
+      transform-origin: top center;
+      opacity: 0.7;
+    }
+    .vine::after {
+      content: '🌿';
+      position: absolute;
+      bottom: -10px;
+      left: -10px;
+      font-size: 1.5rem;
+    }
+    .vine:nth-child(1) { left: 5%; height: 200px; animation-delay: 0s; }
+    .vine:nth-child(2) { left: 15%; height: 150px; animation-delay: 0.3s; }
+    .vine:nth-child(3) { right: 5%; height: 180px; animation-delay: 0.6s; }
+    .vine:nth-child(4) { right: 18%; height: 220px; animation-delay: 0.9s; }
+    .vine:nth-child(5) { left: 40%; height: 120px; animation-delay: 0.5s; }
+    .vine:nth-child(6) { right: 35%; height: 160px; animation-delay: 0.2s; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    /* Floating leaves */
+    .leaf {
+      position: fixed;
+      font-size: 1.8rem;
+      animation: fall linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Main container */
+    .container {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    /* Shaking text top */
+    .top-text {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      color: #ffdd00;
+      text-shadow:
+        0 0 20px #ff8800,
+        0 0 40px #ff4400,
+        3px 3px 0 #aa4400;
+      animation: shakeText 0.3s ease-in-out infinite, colorCycle 2s linear infinite;
+      text-align: center;
+      padding: 0 20px;
+      letter-spacing: 2px;
+    }
+
+    @keyframes shakeText {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-5px) rotate(-2deg); }
+      75% { transform: translateX(5px) rotate(2deg); }
+    }
+
+    @keyframes colorCycle {
+      0% { color: #ffdd00; }
+      33% { color: #ff4444; }
+      66% { color: #44ff44; }
+      100% { color: #ffdd00; }
+    }
+
+    /* Monkey image wrapper */
+    .monkey-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .monkey-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff880066 0%, transparent 70%);
+      animation: glowPulse 0.5s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .monkey-img {
+      width: clamp(200px, 40vw, 320px);
+      height: clamp(200px, 40vw, 320px);
+      object-fit: contain;
+      border-radius: 20px;
+      position: relative;
+      z-index: 2;
+      animation: monkeyBounce 0.4s ease-in-out infinite, monkeySpin 8s linear infinite;
+      filter: drop-shadow(0 0 20px #ff8800) drop-shadow(0 0 40px #ffaa00);
+    }
+
+    /* Fallback emoji if no image */
+    .monkey-emoji {
+      font-size: clamp(120px, 30vw, 200px);
+      animation: monkeyBounce 0.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px #ff8800);
+      line-height: 1;
+      display: none; /* shown by JS if image fails */
+    }
+
+    @keyframes monkeyBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-15px) scale(1.05); }
+    }
+
+    @keyframes monkeySpin {
+      0% { filter: drop-shadow(0 0 20px #ff8800) drop-shadow(0 0 40px #ffaa00) hue-rotate(0deg); }
+      100% { filter: drop-shadow(0 0 20px #ff8800) drop-shadow(0 0 40px #ffaa00) hue-rotate(360deg); }
+    }
+
+    /* Bottom text */
+    .bottom-text {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+      color: #ffffff;
+      text-shadow: 0 0 15px #ff4400, 2px 2px 0 #660000;
+      animation: bounce 0.6s ease-in-out infinite alternate;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    /* Screen flash effect */
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: #ff4400;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      animation: flashScreen 1s ease-in-out infinite;
+    }
+
+    @keyframes flashScreen {
+      0%, 90%, 100% { opacity: 0; }
+      95% { opacity: 0.15; }
+    }
+
+    /* Corner emojis bouncing */
+    .corner-emoji {
+      position: fixed;
+      font-size: 2.5rem;
+      animation: cornerBounce 0.5s ease-in-out infinite alternate;
+      z-index: 20;
+      user-select: none;
+    }
+    .corner-emoji.tl { top: 15px; left: 15px; animation-delay: 0s; }
+    .corner-emoji.tr { top: 15px; right: 15px; animation-delay: 0.15s; }
+    .corner-emoji.bl { bottom: 15px; left: 15px; animation-delay: 0.3s; }
+    .corner-emoji.br { bottom: 15px; right: 15px; animation-delay: 0.45s; }
+
+    @keyframes cornerBounce {
+      from { transform: scale(1) rotate(-10deg); }
+      to { transform: scale(1.3) rotate(10deg); }
+    }
+
+    /* Audio blocked notice - hidden initially */
+    .tap-to-start {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      cursor: pointer;
+      gap: 20px;
+    }
+
+    .tap-to-start span {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: #ffdd00;
+      text-shadow: 0 0 20px #ff8800;
+      animation: pulse 0.8s ease-in-out infinite;
+      text-align: center;
+      padding: 0 30px;
+    }
+
+    .tap-to-start .tap-emoji {
+      font-size: 5rem;
+      animation: tapBounce 0.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+
+    @keyframes tapBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .tap-to-start.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Vines -->
+  <div class="vine"></div>
+  <div class="vine"></div>
+  <div class="vine"></div>
+  <div class="vine"></div>
+  <div class="vine"></div>
+  <div class="vine"></div>
+
+  <!-- Screen flash -->
+  <div class="flash-overlay"></div>
+
+  <!-- Corner emojis -->
+  <div class="corner-emoji tl">🐒</div>
+  <div class="corner-emoji tr">🐒</div>
+  <div class="corner-emoji bl">🐵</div>
+  <div class="corner-emoji br">🐵</div>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="top-text">⚠️ ALERT ⚠️<br/>Aree teri maa ka bhosda fat jaye gand !</div>
+
+    <div class="monkey-wrapper">
+      <div class="monkey-glow"></div>
+      <img
+        class="monkey-img"
+        id="monkeyImg"
+        src="fun.jpg"
+        alt="Monkey"
+        onerror="this.style.display='none'; document.getElementById('monkeyFallback').style.display='block';"
+      />
+      <div class="monkey-emoji" id="monkeyFallback">🐒</div>
+    </div>
+
+    <div class="bottom-text"></div>
+  </div>
+
+  <!-- Tap to start overlay (for mobile autoplay restriction) -->
+  <div class="tap-to-start" id="tapOverlay" onclick="startEverything()">
+    <div class="tap-emoji">👆</div>
+    <span>TAP KARO<br/>Kuch Dikhaana Hai!</span>
+  </div>
+
+  <!-- Hidden audio element -->
+  <audio id="prankAudio" loop preload="auto">
+    <!-- Monkey screaming sound from freesound via proxy -->
+    <source src="1.mp3" type="audio/mpeg"/>
+    <!-- Fallback: browser beep generated via Web Audio API -->
+  </audio>
+
+  <script>
+    // Generate monkey-like screech using Web Audio API as fallback
+    let audioCtx = null;
+    let audioStarted = false;
+    let scriptNode = null;
+
+    function createMonkeyScream() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+      function playScreamLoop() {
+        const now = audioCtx.currentTime;
+
+        // Multiple oscillators for chaotic monkey sound
+        for (let i = 0; i < 3; i++) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const lfo = audioCtx.createOscillator();
+          const lfoGain = audioCtx.createGain();
+
+          osc.type = ['sawtooth', 'square', 'triangle'][i];
+          osc.frequency.setValueAtTime(400 + i * 150, now);
+          osc.frequency.exponentialRampToValueAtTime(800 + i * 200, now + 0.1);
+          osc.frequency.exponentialRampToValueAtTime(300 + i * 100, now + 0.3);
+          osc.frequency.exponentialRampToValueAtTime(900 + i * 180, now + 0.5);
+          osc.frequency.exponentialRampToValueAtTime(200 + i * 80, now + 0.7);
+          osc.frequency.exponentialRampToValueAtTime(1000 + i * 250, now + 0.9);
+          osc.frequency.exponentialRampToValueAtTime(500 + i * 120, now + 1.2);
+
+          lfo.type = 'sine';
+          lfo.frequency.value = 8 + i * 3;
+          lfoGain.gain.value = 100;
+          lfo.connect(lfoGain);
+          lfoGain.connect(osc.frequency);
+
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(0.3 / 3, now + 0.05);
+          gain.gain.setValueAtTime(0.3 / 3, now + 1.0);
+          gain.gain.linearRampToValueAtTime(0, now + 1.4);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(now + i * 0.02);
+          osc.stop(now + 1.5);
+          lfo.start(now + i * 0.02);
+          lfo.stop(now + 1.5);
+        }
+
+        // Schedule next scream
+        setTimeout(playScreamLoop, 1500);
+      }
+
+      playScreamLoop();
+    }
+
+    function startAudio() {
+      const audio = document.getElementById('prankAudio');
+      audio.volume = 1.0;
+      const playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          audioStarted = true;
+        }).catch(() => {
+          // HTML audio failed, use Web Audio API monkey scream
+          createMonkeyScream();
+          audioStarted = true;
+        });
+      }
+    }
+
+    function startEverything() {
+      document.getElementById('tapOverlay').classList.add('hidden');
+      startAudio();
+      spawnLeaves();
+    }
+
+    // Spawn falling leaves
+    function spawnLeaves() {
+      const leafEmojis = ['🍃', '🌿', '🍀', '🌱'];
+      setInterval(() => {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+        leaf.style.left = Math.random() * 100 + 'vw';
+        leaf.style.animationDuration = (3 + Math.random() * 4) + 's';
+        leaf.style.animationDelay = '0s';
+        leaf.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+        document.body.appendChild(leaf);
+        setTimeout(() => leaf.remove(), 8000);
+      }, 400);
+    }
+
+    // Try autoplay on load (works on some browsers)
+    window.addEventListener('load', () => {
+      // Small delay then try
+      setTimeout(() => {
+        const audio = document.getElementById('prankAudio');
+        audio.volume = 1.0;
+        const p = audio.play();
+        if (p !== undefined) {
+          p.then(() => {
+            // Autoplay worked! Hide overlay and start
+            audioStarted = true;
+            document.getElementById('tapOverlay').classList.add('hidden');
+            spawnLeaves();
+          }).catch(() => {
+            // Need user interaction - keep overlay showing
+          });
+        }
+      }, 300);
+    });
+
+    // Prevent right-click and inspect
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        e.preventDefault();
+      }
+    });
+
+    // Make it impossible to close easily - mess with beforeunload
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault();
+      e.returnValue = '🐒 MONKEY NE PAKAD LIYA! Band mat karo!';
+    });
+  </script>
+</body>
+</html>
